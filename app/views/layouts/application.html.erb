@@ -15,8 +15,11 @@
     <header>
       <h1>Buy Our Stuff</h1>
       <h3>Make Us Rich</h3>
+      <p> You have visited <%= pluralize @visit_count, 'time' %> </p>
+      <p> Cart <%= session[:shopping_cart] %> </p>
       <nav>
         <%= link_to image_tag("cat.jpg", width:60),root_path %>
+
         <ul>
           <li>
             Cart
@@ -29,7 +32,13 @@
               <li>
                 <%# product.name %><%# link_to '−', cart_path(product), method: :delete %>
                 <%# button_to cart_path(product), method: :delete do %>
-                <%= product.name %><%= button_to '➖', cart_path(product), method: :delete  %>
+
+                <%= item_quantity(product.id) %> X
+                <% if product.image.present? %>
+                    <%= image_tag product.image.variant(resize_to_limit: [50, 50]).processed  %>
+                <% end %>
+                <%= product.name %>
+                <%= button_to '➖', cart_path(product), method: :delete  %>
               </li>
               <% end %>
             </ul>
@@ -61,7 +70,11 @@
           <% cart.each do |p| %>
             <li>
               <%# product.name %><%# link_to '❌', cart_path(product), method: :delete %>
-              <%= p.name %><%= button_to '➖', cart_path(p), method: :delete  %>
+              <%= p.name %>
+              <% if p.image.present? %>
+                <%= image_tag p.image.variant(resize_to_limit: [50, 50]).processed  %>
+              <% end %>
+              <%= button_to '➖', cart_path(p), method: :delete  %>
 
             </li>
           <% end %>
